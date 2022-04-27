@@ -87,38 +87,30 @@ function numbersInPrompt () {
 };
 
 
-// 5. 
+// 5.
+const messageToPrint = (vote, numbers) => {
+  document.getElementById('vote-game').innerHTML = vote
+  document.getElementById('numbers-guessed').innerHTML = numbers
+}
 
 function scorePoint () {
   if (numbersGuessed === 0) {
-    document.getElementById('vote-game').innerHTML = `Vergognati!`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`Vergognati!`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
   else if (numbersGuessed === 1) {
-    document.getElementById('vote').innerHTML = `Ma non ci siamo proprio`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`Ma non ci siamo proprio`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
   else if (numbersGuessed === 2) {
-    document.getElementById('vote').innerHTML = `Puoi fare di meglio`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`Puoi fare di meglio`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
   else if (numbersGuessed === 3) {
-    document.getElementById('vote').innerHTML = `Buono, sopra la media`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`Buono, sopra la media`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
   else if (numbersGuessed === 4) {
-    document.getElementById('vote').innerHTML = `C'eri quasi`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`C'eri quasi`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
   else if (numbersGuessed === 5) {
-    document.getElementById('vote').innerHTML = `Perfect Score`; 
-
-    document.getElementById('numbers-guessed').innerHTML = `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`;
+    messageToPrint(`Perfect Score`, `Hai indovinato ${numbersGuessed} numeri su ${numbersUser}`)
   }
 }
 
