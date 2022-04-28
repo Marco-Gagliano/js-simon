@@ -47,7 +47,8 @@ Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei num
 // creare una funzione
 // 1. 
 
-const secGame = 5;
+
+let counter = 6;
 let numbersGuessed = 0;
 const numbersPC = [];         // array numeri random pc
 const numbersUser = [];       // array numeri scritto dall'utente
@@ -70,9 +71,26 @@ function init () {
  
 
 // 3. 
+const clock = setInterval (count, 1000);
 
-// setTimeout (numbersHide, 5000);
-setTimeout (numbersInPrompt, 2000);
+ function count () {
+  counter--;
+
+  // console.log(counter);
+
+  document.getElementById('description').innerHTML = `Hai tempo ${counter} secondi per memorizzare i numeri che compaiono nei riquadri prima che scompaiono.<br>Ricordali bene e scrivi negli appositi riquadri` + numbersPC;
+
+
+
+  if (counter < 1) {
+
+    clearInterval(clock);
+    document.getElementById('description').innerHTML = '';
+
+    console.log('fine');
+  }
+}
+
 
 
 // 4. 
@@ -126,8 +144,8 @@ function numbersCellsUser (number){
   numbersInCells.className = 'number-in-cells';
   numbersInCells.innerHTML = number;
 
-  const containerCells = document.querySelector('.container-cellsnumbers-pc');
-  containerCells.append(numbersCells);
+  // const containerCells = document.querySelector('.container-cellsnumbers-pc');
+  // containerCells.append(numbersCells);
 
   numbersCells.append(numbersInCells);
 
