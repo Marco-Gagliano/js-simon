@@ -1,13 +1,17 @@
 
-body {
+/* body {
   background-image: url(/img/Brain-Memory-Concept.jpg);
   background-size: cover;
-}
+} */
 
-.correct-numbers{
+.description-game {
   text-align: center;
   font-size: 30px;
   background-color: #00AEFF;
   color: #000000;
+}
+
+.hide {
+  display: none;
 }
 

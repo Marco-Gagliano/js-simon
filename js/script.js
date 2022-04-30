@@ -44,29 +44,28 @@ Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei num
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-// creare una funzione
-// 1. 
-
 
 let counter = 6;
-let numbersGuessed = 0;
-const numbersPC = [];         // array numeri random pc
-const numbersUser = [];       // array numeri scritto dall'utente
+// let numbersGuessed = 0;
+const numeriTotali = 5;
+const numeriRandomPc = [];         // array numeri random pc
+const numeriUtente = [];       // array numeri scritto dall'utente
+const randomNumbers = [];
+const numeriIndovinati = [];
 
 init();
 // 2. 
 
 function init () {
-  for (let i = 0; i < 5; i++) {5
+  for (let i = 0; i < numeriTotali; i++) {
 
     let randomNumber = generateRandomNumber ();
     numbersCellsUser(randomNumber);
 
-    numbersPC.push(randomNumber)
+    numeriRandomPc.push(randomNumber);
   }
 
-  console.log(numbersPC, 'array numeri random') ;
-
+  console.log(numeriRandomPc, 'array numeri random') ;
 }
  
 
@@ -78,9 +77,7 @@ const clock = setInterval (count, 1000);
 
   // console.log(counter);
 
-  document.getElementById('description').innerHTML = `Hai tempo ${counter} secondi per memorizzare i numeri che compaiono nei riquadri prima che scompaiono.<br>Ricordali bene e scrivi negli appositi riquadri` + numbersPC;
-
-
+  document.getElementById('description').innerHTML = `Hai tempo ${counter} secondi per memorizzare i numeri che compaiono nei riquadri prima che scompaiono.<br>Ricordali bene e scrivi negli appositi riquadri`;
 
   if (counter < 1) {
 
@@ -92,11 +89,23 @@ const clock = setInterval (count, 1000);
 }
 
 
-
 // 4. 
+setTimeout (numbersInPrompt, 6000);
+setTimeout (hide, 5800);
+
+function hide () {
+
+  const hideNumbers = document.getElementsByClassName('number-in-cells');
+  // hideNumbers.classList.add('hide') 
+
+  for (i = 0; i < hideNumbers.length; i++) {
+    hideNumbers[i].classList.add('hide');
+  }
+}
+
 
 function numbersInPrompt () {
-  for (let i = 0; i < 5; i++){
+  for (let i = 0; i < numeriTotali; i++){
 
     let user = parseInt(prompt("Inserisci i 5 numeri che pensi siano quelli che ti ricordi"));
     while (isNaN(user)) {
@@ -105,34 +114,38 @@ function numbersInPrompt () {
       user = parseInt(prompt("Inserisci i 5 numeri che pensi siano quelli che ti ricordi"));
     };
 
-    numbersUser.push(user);
-    
-
+    numeriUtente.push(user);
     numbersCellsUser(user);
-    scorePoint();
-    numbersCorrect();
-
   };
+  
 
-  console.log(numbersUser, 'array numeri utente inseriti');
-
+  console.log(numeriUtente, 'array numeri utente inseriti');
+  remove();
+  numbersCorrect();
+  scorePoint();
 };
+
+
+function remove () {
+
+  const hideNumbers = document.getElementsByClassName('number-in-cells');
+  // hideNumbers.classList.add('hide') 
+
+  for (i = 0; i < hideNumbers.length; i++) {
+    hideNumbers[i].classList.remove('hide');
+  }
+};
+
 
 function numbersCorrect () {
 
-  const correctNumbers = [];
-
-  for (let i = 0; i < numbersPC.lenght; i++) {
-    if(numbersUser.includes(numbersPC[i])) {
-      correctNumbers++;
-      correctNumbers.push(numbersPC[i])
+  for (let i = 0; i < numeriUtente.length; i++) {
+    if(numeriRandomPc.includes(numeriUtente[i])) {
+      numeriIndovinati.push(numeriUtente[i]);
     }
   }
-
-  console.log('Numeri indovinati', numbersGuessed);
-
-  return correctNumbers;
-}
+  console.log('Numeri indovinati', numeriIndovinati);
+};
 
 
 function numbersCellsUser (number){
@@ -141,59 +154,46 @@ function numbersCellsUser (number){
   numbersCells.className = 'cell-number';
 
   const numbersInCells = document.createElement('span');
-  numbersInCells.className = 'number-in-cells';
+  numbersInCells.className = 'number-in-cells mx-4';
   numbersInCells.innerHTML = number;
 
-  // const containerCells = document.querySelector('.container-cellsnumbers-pc');
-  // containerCells.append(numbersCells);
+  const containerCells = document.querySelector('.container-cellsnumbers-pc');
+  containerCells.append(numbersCells);
 
   numbersCells.append(numbersInCells);
 
   // console.log(containerCells);
-}
+};
 
 // 5.
 
 function scorePoint () {
 
-  let messageToPrint = (vote, numbers) => {
-    document.getElementById('vote-game').innerHTML = vote
-    document.getElementById('numbers-guessed').innerHTML = numbers
-  }
+  const voteGame = document.getElementById('vote-game');
+
   
-  if (correctNumbers === 0) {
-    messageToPrint(`Vergognati!`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  if (numeriIndovinati.length === 0) {
+    voteGame.innerHTML = `Vergognati! Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-  else if (correctNumbers === 1) {
-    messageToPrint(`Ma non ci siamo proprio`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  else if (numeriIndovinati.length === 1) {
+    voteGame.innerHTML = `Ma non ci siamo proprio. Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-  else if (correctNumbers === 2) {
-    messageToPrint(`Puoi fare di meglio`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  else if (numeriIndovinati.length === 2) {
+    voteGame.innerHTML = `Puoi fare di meglio. Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-  else if (correctNumbers === 3) {
-    messageToPrint(`Buono, sopra la media`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  else if (numeriIndovinati.length === 3) {
+    voteGame.innerHTML = `Buono, sopra la media. Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-  else if (correctNumbers === 4) {
-    messageToPrint(`C'eri quasi`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  else if (numeriIndovinati.length === 4) {
+    voteGame.innerHTML = `C'eri quasi. Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-  else if (correctNumbers === 5) {
-    messageToPrint(`Perfect Score`, `Hai indovinato ${correctNumbers} numeri su ${correctNumbers}`)
+  else if (numeriIndovinati.length === 5) {
+    voteGame.innerHTML = `Perfect Score. Hai indovinato ${numeriIndovinati.length} numeri su ${numeriTotali}`
   }
-}
 
-// 5
+  console.log(numeriIndovinati.length);
+};
 
-
-// 6. 
-
-
-// 7.
-
-// 8. 
-
-// 9. 
-
-// 10. 
 
 function generateRandomNumber() {
   return Math.floor(Math.random() * 100 + 1);
